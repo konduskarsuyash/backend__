@@ -151,3 +151,5 @@ TWILIO_ACCOUNT_SID =  os.getenv('TWILIO_ACCOUNT_SID')
 TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
 TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER') # The number you bought from Twilio
 API_KEY = os.getenv('API_KEY')
+
+ALLOWED_HOSTS=[ 'c375-103-225-134-62.ngrok-free.app']
