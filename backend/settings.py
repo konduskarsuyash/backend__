@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'rest_framework',
     'accounts',
+    'complaints',
 ]
 
 
@@ -141,3 +142,12 @@ MAX_OTP_TRY = 3
 
 AUTH_USER_MODEL = "accounts.UserModel"
 MIN_PASSWORD_LENGTH = 8
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# settings.py
+TWILIO_ACCOUNT_SID =  os.getenv('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
+TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER') # The number you bought from Twilio
+API_KEY = os.getenv('API_KEY')
