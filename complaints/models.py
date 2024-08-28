@@ -35,4 +35,4 @@ class RailwayComplaint(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Complaint {self.id} - {self.get_category_display()}"
+        return f"Complaint {self.id} - {self.image}"

@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import json
+from pathlib import Path
 
 # Initialize environment variables
 load_dotenv()
@@ -152,4 +154,12 @@ TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
 TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER') # The number you bought from Twilio
 API_KEY = os.getenv('API_KEY')
 
-ALLOWED_HOSTS=[ 'c375-103-225-134-62.ngrok-free.app']
+ALLOWED_HOSTS=[ 'c375-103-225-134-62.ngrok-free.app','127.0.0.1']
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+
+
+FIREBASE_CREDENTIALS = os.getenv('FIREBASE_CREDENTIALS')
+FIREBASE_STORAGE_BUCKET = os.getenv('FIREBASE_STORAGE_BUCKET')
