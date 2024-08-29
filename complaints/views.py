@@ -18,6 +18,13 @@ class ImageClassificationView(APIView):
         img = Image.open(image_file)
         description, category, hindi_messages = classify_image(img)
 
+        
+        if description == "Others" or category =="Others" or hindi_messages=="Others":
+            # If the category is "Others", send a message indicating a wrong image upload
+            return Response(
+                {"error": "You have uploaded the wrong image."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         # Determine department and employee
         department_mapping = {
             1: "Cleanliness",
@@ -30,12 +37,6 @@ class ImageClassificationView(APIView):
         department_name = department_mapping.get(category)
         print(department_name)
 
-        if department_name == "Others":
-            # If the category is "Others", send a message indicating a wrong image upload
-            return Response(
-                {"error": "You have uploaded the wrong image."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
 
         if department_name:
             department = get_object_or_404(Department, name=department_name)

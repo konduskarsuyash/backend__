@@ -31,7 +31,7 @@ def classify_image(img):
         2: Complain about Train safety (for eg: fights)
         3: Complain about food.
         4: Complain about seat and anyone else have taken the seat.
-        5: Complain about Others.
+        If the provided image is into categorised in any categorise mentioned above then Just respond "ERROR:F7A3B2C1"
 
         You should act as a Superior and order the employee.
         Also, return the number corresponding to the complain.""", 
@@ -41,6 +41,14 @@ def classify_image(img):
     # Extract the description and category
     description = task.text
     print(description)
+    if "ERROR:F7A3B2C1" in description:
+       print("Please Retry again and enter a valid image")
+       return "Others","Others","Others"
+
+
+    # Extract the description and category
+    # description = task.text
+    # print(description)
     match = re.search(r'\d+', description)
     category = int(match.group()) if match else None
 
