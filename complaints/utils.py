@@ -18,7 +18,6 @@ firebase_admin.initialize_app(cred, {
 
 # Global variable to store the file URL
 file_url = None
-
 def get_firebase_image_url(image_file):
     bucket = storage.bucket()
     
@@ -34,7 +33,6 @@ def get_firebase_image_url(image_file):
 
     # Return the public URL of the uploaded image
     return blob.public_url
-
 
 def send_voice_message(phone_number, message, image_file=None):
     global file_url

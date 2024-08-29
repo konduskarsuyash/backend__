@@ -16,20 +16,30 @@ class ImageClassificationView(APIView):
             return Response({"error": "No image provided."}, status=status.HTTP_400_BAD_REQUEST)
 
         img = Image.open(image_file)
-        description, category = classify_image(img)
+        description, category, hindi_messages = classify_image(img)
 
         # Determine department and employee
         department_mapping = {
             1: "Cleanliness",
             2: "Train Safety",
             3: "Food",
-            4: "Seat"
+            4: "Seat",
+            5: "Others",
         }
 
         department_name = department_mapping.get(category)
+        print(department_name)
+
+        if department_name == "Others":
+            # If the category is "Others", send a message indicating a wrong image upload
+            return Response(
+                {"error": "You have uploaded the wrong image."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
         if department_name:
             department = get_object_or_404(Department, name=department_name)
-            employee = Employee.objects.filter(department=department).first()  # You can implement more sophisticated logic here
+            employee = Employee.objects.filter(department=department).first()
 
             # Save the complaint
             complaint = RailwayComplaint.objects.create(
@@ -44,13 +54,14 @@ class ImageClassificationView(APIView):
             if employee and employee.phone_number:
                 print("Employee found, it is being assigned.")
                 message = f"Complaint ID {complaint.id} requires your attention. Details: {description}"
-                call_sid, whatsapp_sid = send_voice_message(employee.phone_number, message, image_file)
+                call_sid, whatsapp_sid = send_voice_message(employee.phone_number, hindi_messages, image_file)
                 print(f"Voice message sent, Call SID: {call_sid}, WhatsApp SID: {whatsapp_sid}")
 
             serializer = RailwayComplaintSerializer(complaint)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response({"error": "Invalid category."}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
