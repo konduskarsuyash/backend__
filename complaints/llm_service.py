@@ -31,7 +31,7 @@ def classify_image(img):
         2: Complain about Train safety (for eg: fights)
         3: Complain about food.
         4: Complain about seat and anyone else have taken the seat.
-        If the provided image is into categorised in any categorise mentioned above then Just respond "ERROR:F7A3B2C1"
+        If the provided image is not categorised into any categorise mentioned above then Just respond "ERROR:F7A3B2C1"
 
         You should act as a Superior and order the employee.
         Also, return the number corresponding to the complain.""", 
