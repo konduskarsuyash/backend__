@@ -66,20 +66,24 @@ def send_voice_message(phone_number, message, image_file=None):
     # Twilio client setup
     client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
-    # Send a WhatsApp message with text and optional image
-    if image_url:
-        whatsapp_message = client.messages.create(
-            body=message,
-            from_='whatsapp:' + settings.TWILIO_WHATSAPP_NUMBER,
-            to='whatsapp:' + phone_number,
-            media_url=image_url
-        )
-    else:
-        whatsapp_message = client.messages.create(
-            body=message,
-            from_='whatsapp:' + settings.TWILIO_WHATSAPP_NUMBER,
-            to='whatsapp:' + phone_number
-        )
+    try:
+        if image_url:
+            whatsapp_message = client.messages.create(
+                body=message,
+                from_='whatsapp:' + settings.TWILIO_WHATSAPP_NUMBER,
+                to='whatsapp:' + phone_number,
+                media_url=image_url
+            )
+        else:
+            whatsapp_message = client.messages.create(
+                body=message,
+                from_='whatsapp:' + settings.TWILIO_WHATSAPP_NUMBER,
+                to='whatsapp:' + phone_number
+            )
+        print(f"WhatsApp message sent. SID: {whatsapp_message.sid}")
+    except Exception as e:
+        print(f"Failed to send WhatsApp message: {e}")
+
 
     # Make a call and play the audio
     call = client.calls.create(

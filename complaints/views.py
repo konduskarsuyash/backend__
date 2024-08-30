@@ -10,6 +10,7 @@ from .utils import send_voice_message
 
 class ImageClassificationView(APIView):
     def post(self, request, *args, **kwargs):
+        print('recievd image classification')
         image_file = request.FILES.get('image')
 
         if not image_file:

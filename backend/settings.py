@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'rest_framework',
+    "corsheaders",
     'accounts',
     'complaints',
 ]
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -154,7 +156,7 @@ TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
 TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER') # The number you bought from Twilio
 API_KEY = os.getenv('API_KEY')
 
-ALLOWED_HOSTS=[ 'c375-103-225-134-62.ngrok-free.app','127.0.0.1']
+ALLOWED_HOSTS=[ 'c375-103-225-134-62.ngrok-free.app','127.0.0.1','localhost']
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -165,3 +167,7 @@ FIREBASE_STORAGE_BUCKET = os.getenv('FIREBASE_STORAGE_BUCKET')
 OPENAI_KEY = os.getenv('OPENAI_KEY')
 TWILIO_WHATSAPP_NUMBER = os.getenv('TWILIO_WHATSAPP_NUMBER')
 GROQ_API_KEY=os.getenv('GROQ_API_KEY')
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
