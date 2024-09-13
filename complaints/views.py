@@ -7,7 +7,6 @@ from .serializers import RailwayComplaintSerializer
 from .llm_service import classify_image
 from django.shortcuts import get_object_or_404
 from .utils import send_voice_message
-
 class ImageClassificationView(APIView):
     def post(self, request, *args, **kwargs):
         print('recievd image classification')
@@ -19,13 +18,13 @@ class ImageClassificationView(APIView):
         img = Image.open(image_file)
         description, category, hindi_messages = classify_image(img)
 
-        
-        if description == "Others" or category =="Others" or hindi_messages=="Others":
+        if description == "Others" or category == "Others" or hindi_messages == "Others":
             # If the category is "Others", send a message indicating a wrong image upload
             return Response(
                 {"error": "You have uploaded the wrong image."},
                 status=status.HTTP_400_BAD_REQUEST
             )
+        
         # Determine department and employee
         department_mapping = {
             1: "Cleanliness",
@@ -37,7 +36,6 @@ class ImageClassificationView(APIView):
 
         department_name = department_mapping.get(category)
         print(department_name)
-
 
         if department_name:
             department = get_object_or_404(Department, name=department_name)
@@ -59,10 +57,14 @@ class ImageClassificationView(APIView):
                 call_sid, whatsapp_sid = send_voice_message(employee.phone_number, hindi_messages, image_file)
                 print(f"Voice message sent, Call SID: {call_sid}, WhatsApp SID: {whatsapp_sid}")
 
+            # Modify the response to include the employee's name
             serializer = RailwayComplaintSerializer(complaint)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            response_data = serializer.data
+            response_data['employee_name'] = employee.name if employee else "Unassigned"
+            return Response(response_data, status=status.HTTP_201_CREATED)
 
         return Response({"error": "Invalid category."}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
